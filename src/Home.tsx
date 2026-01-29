@@ -19,7 +19,7 @@ const Home = () => {
         </div>
 
         <img
-          src="/images/hero-car-wash.jpg"
+          src="/frontpageimages/hero-car-wash.png"
           alt="Car Wash Service"
           className="hero-image"
         />
@@ -44,23 +44,23 @@ const Home = () => {
 
         <div className="service-grid">
           <div className="service-card">
-            <img src="/images/exterior-wash.jpg" alt="Exterior Wash" />
+            <img src="/frontpageimages/exterior-wash.jpg" alt="Exterior Wash" />
             <h3>Exterior Foam Wash</h3>
           </div>
 
           <div className="service-card">
-            <img src="/images/interior-clean.jpg" alt="Interior Cleaning" />
+            <img src="/frontpageimages/interior-clean.jpg" alt="Interior Cleaning" />
             <h3>Interior Cleaning</h3>
           </div>
 
           <div className="service-card">
-            <img src="/images/polishing.jpg" alt="Polishing" />
-            <h3>Polishing & Waxing</h3>
+            <img src="/frontpageimages/polishing.png" alt="Detailing" />
+            <h3>Full Car Detailing</h3>
           </div>
 
           <div className="service-card">
-            <img src="/images/detailing.jpg" alt="Detailing" />
-            <h3>Full Car Detailing</h3>
+            <img src="/frontpageimages/detailing.png" alt="Polishing" />
+            <h3>Polishing & Waxing</h3>
           </div>
         </div>
       </section>
@@ -110,7 +110,7 @@ const Home = () => {
       <section className="cta">
         <h2>Ready to Give Your Car a Fresh Look?</h2>
         <p>Book your car wash today and experience the difference.</p>
-        <button className="btn primary">Book Appointment</button>
+        <button className="btn primary">Book Now</button>
       </section>
 
     </main>

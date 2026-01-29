@@ -48,7 +48,7 @@
 .greeting {
   font-size: 48px;
   font-weight: 700;
-  color: #1f2937;
+  color: #ffffff;
 }
 
 /* for home section */
@@ -61,7 +61,7 @@
 
 body {
   font-family: "Inter", system-ui, sans-serif;
-  background: #020617;
+  background: #d8dbff;
   color: #e5e7eb;
 }
 
@@ -106,11 +106,12 @@ body {
 .hero h1 {
   font-size: 42px;
   margin-bottom: 20px;
+  color: #000000;
 }
 
 .hero p {
   font-size: 18px;
-  color: #cbd5f5;
+  color: #000000;
   margin-bottom: 30px;
 }
 
@@ -129,6 +130,7 @@ body {
 .why-us {
   padding: 80px 60px;
   text-align: center;
+  color: black;
 }
 
 .why-us h2 {
@@ -143,7 +145,7 @@ body {
 }
 
 .feature {
-  background: #0f172a;
+  background: #ffffff;
   padding: 20px;
   border-radius: 12px;
   font-size: 16px;
@@ -158,6 +160,7 @@ body {
   text-align: center;
   font-size: 34px;
   margin-bottom: 50px;
+  color: #000000;
 }
 
 .service-grid {
@@ -197,6 +200,7 @@ body {
 .pricing h2 {
   font-size: 34px;
   margin-bottom: 50px;
+  color: #000000;
 }
 
 .pricing-cards {
