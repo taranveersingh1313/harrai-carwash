@@ -1,5 +1,5 @@
 import "../../assets/css/dashboard.css";
-import DashboardCards from "./cards.";
+import DashboardCards from "./cards";
 
 export default function Dashboard() {
   return (
