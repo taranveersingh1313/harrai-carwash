@@ -8,12 +8,6 @@ const Admin = {
         "SELECT * FROM admins WHERE email = ? OR username = ? LIMIT 1", 
         [email, username]
       );
-
-
-
-      // console.log(rows);
-      
-      // Return the first record found, or null if no record exists
       return rows.length > 0 ? rows[0] : null;
     } catch (error) {
       throw error;

@@ -1,8 +1,12 @@
 import "../../assets/css/dashboard.css";
 import DashboardCards from "./cards";
 
+ console.log("here2");
+
 export default function Dashboard() {
+   console.log("here3");
   return (
+    
     <div className="admin-dashboard">
       <h1 className="page-title">Admin Dashboard</h1>
 
