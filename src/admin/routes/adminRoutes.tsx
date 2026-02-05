@@ -1,6 +1,7 @@
 
 import Dashboard from "../pages/dashboard/index";
 import AdminList from "../pages/admins/index";
+import CreateAdmin from "../pages/admins/create";
 
 
 const AdminRoutes = [
@@ -12,6 +13,10 @@ const AdminRoutes = [
   {
     path: "admin-list",
     element: <AdminList />,
+  },
+  {
+    path: "create-admin",
+    element: <CreateAdmin />,
   },
 ];
 

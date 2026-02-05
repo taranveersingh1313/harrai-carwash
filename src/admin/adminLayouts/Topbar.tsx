@@ -1,10 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
+import { pageTitles } from "../config/pageTitle";
+
 
 export default function Topbar() {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const title =
+    pageTitles[location.pathname] || "Admin Panel";
 
   const handleLogout = async () => {
     try {
@@ -38,7 +43,7 @@ export default function Topbar() {
 
   return (
     <header className="topbar">
-      <h3>Dashboard</h3>
+      <h3>{title}</h3>
 
       <div
         className="profile-wrapper"
