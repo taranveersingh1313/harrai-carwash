@@ -79,12 +79,17 @@ const Admin = {
   },
 
   DeleteAdmin: async (id) => {
-    const [rows] = await db.query(
+    const [result] = await db.query(
       "DELETE FROM admins WHERE id = ? LIMIT 1",
       [id]
     );
 
-    return rows.length ? rows[0] : null;
+    // result.affectedRows tells you if a record was actually deleted
+    if (result.affectedRows > 0) {
+      return { success: true, id: id };
+    }
+
+    return null; // Return null if the admin didn't exist
   },
 
 
