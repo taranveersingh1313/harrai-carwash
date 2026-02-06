@@ -1,18 +1,18 @@
-const express = require('express');
-const cors = require('cors');
-const db = require('./config/dbConnect');
+import express from "express";
+import cors from "cors";
+import "./config/dbConnect.js"; // just initialize DB
+import authRoutes from "./routes/admin/authRoutes.js";
+import adminRoutes from "./routes/admin/Routes.js";
+
 const app = express();
-const authRoutes = require('./routes/admin/authRoutes');
-const Routes = require('./routes/admin/Routes');
 
 app.use(cors());
 app.use(express.json());
 
+// routes
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 
-
-
-// ... other middleware
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', Routes);
-
-app.listen(5000, () => console.log('Server running on port 5000'));
+app.listen(5000, () => {
+  console.log("Server running on port 5000");
+});

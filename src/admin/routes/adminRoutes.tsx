@@ -18,6 +18,10 @@ const AdminRoutes = [
     path: "create-admin",
     element: <CreateAdmin />,
   },
+  {
+    path: "edit-admin/:id",
+    element: <CreateAdmin />,
+  },
 ];
 
 export default AdminRoutes;

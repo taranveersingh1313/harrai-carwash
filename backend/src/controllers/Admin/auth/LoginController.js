@@ -1,26 +1,19 @@
-const { log } = require('node:console');
-const Admin = require('../../../Models/Admin/LoginModel');
+// const { log } = require('node:console');
+import Admin from "../../../Models/Admin/LoginModel.js";
 
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-exports.adminlogin = async (req, res) => {
+export const adminlogin = async (req, res) => {
   const { email, password } = req.body;
-
-  //  log(req.body);
-
   try {
     // 1. Check if user exists
-    // console.log("Searching for identity:", identity);
     const admin = await Admin.findByEmailOrUsername(email, email);
-    // console.log("Database returned:", admin);
-    
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     }
-
     // 2. Compare entered password with hashed password in DB
-   const isMatch = (password === admin.password);
+   const isMatch = await bcrypt.compare(password, admin.password);
 
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });

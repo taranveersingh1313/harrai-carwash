@@ -1,6 +1,7 @@
-const db = require('../../config/dbConnect');
 
-const Admin = {
+import db from "../../config/dbConnect.js";
+
+const AdminLogin = {
   // Pass email and username as arguments to the function
   findByEmailOrUsername: async (email, username) => {
     try {
@@ -15,4 +16,4 @@ const Admin = {
   },
 };
 
-module.exports = Admin;
+export default AdminLogin;
