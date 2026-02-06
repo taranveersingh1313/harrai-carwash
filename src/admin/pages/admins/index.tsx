@@ -103,7 +103,7 @@ export default function AdminList() {
 
   return (
     <div className="admin-dashboard">
-      <div className="page-header">
+      <div className="page-header-row">
         <h1 className="page-title">Admin Listing</h1>
 
         <button
