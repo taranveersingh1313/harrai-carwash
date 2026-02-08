@@ -113,21 +113,21 @@ export default function AdminList() {
   const [loading, setLoading] = useState(true);
 
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAdmins(page);
-  }, [page]);
+    fetchAdmins(page, limit);
+  }, [page, limit]);
 
   /* ---------------- FETCH ADMINS ---------------- */
-  const fetchAdmins = async (pageNumber: number) => {
+  const fetchAdmins = async (pageNumber: number, limitNumber: number) => {
     setLoading(true);
 
     const res = await fetch(
-      `http://localhost:5000/api/admin/admin-list?page=${pageNumber}&limit=${limit}`,
+      `http://localhost:5000/api/admin/admin-list?page=${pageNumber}&limit=${limitNumber}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -137,75 +137,78 @@ export default function AdminList() {
 
     const data = await res.json();
 
-    setAdmins(data.data);
+    setAdmins(data.data || []);
     setTotalPages(data.totalPages || 1);
     setLoading(false);
   };
 
   /* ---------------- DELETE ADMIN ---------------- */
-const deleteAdmin = async (id: number) => {
-  const result = await Swal.fire({
-    title: "Delete Admin?",
-    text: "This action cannot be undone!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Yes, delete",
-    cancelButtonText: "Cancel",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    const res = await fetch(
-      `http://localhost:5000/api/admin/delete-admin/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-
-    if (res.ok) {
-      await Swal.fire({
-        icon: "success",
-        title: "Deleted!",
-        text: "Admin has been deleted.",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-
-      fetchAdmins(page); // refresh list
-    } else {
-      throw new Error();
-    }
-  } catch (err) {
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "Failed to delete admin",
+  const deleteAdmin = async (id: number) => {
+    const result = await Swal.fire({
+      title: "Delete Admin?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      confirmButtonText: "Yes, delete",
     });
-  }
-};
 
+    if (!result.isConfirmed) return;
+
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/admin/delete-admin/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error();
+
+      Swal.fire("Deleted!", "Admin deleted successfully", "success");
+      fetchAdmins(page, limit);
+    } catch {
+      Swal.fire("Error", "Failed to delete admin", "error");
+    }
+  };
 
   if (loading) return <p>Loading admins...</p>;
 
   return (
     <div className="admin-dashboard">
-      <div className="page-header-row">
+      {/* HEADER */}
+      <div className="page-header-row" style={{ display: "flex", justifyContent: "" }}>
         <h1 className="page-title">Admin Listing</h1>
 
-        <button
-          className="btn-primary"
-          onClick={() => navigate("/admin/create-admin")}
-        >
-          + Create Admin
-        </button>
+        <div style={{  gap: "1px",    marginLeft: "650px" }}>
+          {/* console.log(e.target.value); */}
+
+          <select
+            value={limit}
+            onChange={(e) => {
+              setPage(1);
+              setLimit(Number(e.target.value));
+            }}
+            className="form-control"
+          >
+
+            <option value={10}>10</option>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </select>
+        </div>
+        <div>
+          <button className="btn-primary" onClick={() => navigate("/admin/create-admin")}>
+            + Create Admin
+          </button>
+        </div>
       </div>
 
+      {/* TABLE */}
       <table className="admin-table">
         <thead>
           <tr>
@@ -233,22 +236,14 @@ const deleteAdmin = async (id: number) => {
               <td>{admin.name}</td>
               <td>{admin.email}</td>
               <td>{admin.phone_number}</td>
-              <td>
-                {new Date(admin.created_at).toLocaleDateString("en-GB")}
-              </td>
+              <td>{new Date(admin.created_at).toLocaleDateString("en-GB")}</td>
               <td style={{ display: "flex", gap: "10px" }}>
                 <FiEdit
-                  size={18}
                   style={{ cursor: "pointer" }}
-                  title="Edit"
-                  onClick={() =>
-                    navigate(`/admin/edit-admin/${admin.id}`)
-                  }
+                  onClick={() => navigate(`/admin/edit-admin/${admin.id}`)}
                 />
                 <FiTrash2
-                  size={18}
                   style={{ cursor: "pointer", color: "red" }}
-                  title="Delete"
                   onClick={() => deleteAdmin(admin.id)}
                 />
               </td>
@@ -257,35 +252,23 @@ const deleteAdmin = async (id: number) => {
         </tbody>
       </table>
 
-      {/* ---------------- PAGINATION ---------------- */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "20px",
-          gap: "10px",
-        }}
-      >
-        <button
-          className="btn-secondary"
-          disabled={page === 1}
-          onClick={() => setPage((p) => p - 1)}
-        >
-          Prev
-        </button>
+      {/* PAGINATION */}
+      {admins.length > 0 && totalPages > 1 && (
+        <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
+          <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+            Prev
+          </button>
 
-        <span style={{ padding: "6px 10px" }}>
-          Page {page} of {totalPages}
-        </span>
+          <span>
+            Page {page} of {totalPages}
+          </span>
 
-        <button
-          className="btn-secondary"
-          disabled={page === totalPages}
-          onClick={() => setPage((p) => p + 1)}
-        >
-          Next
-        </button>
-      </div>
+          <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }
+

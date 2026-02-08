@@ -4,10 +4,23 @@ import db from "../../config/dbConnect.js";
 
 
 const Admin = {
-  getAllAdmins: async () => {
-    const [rows] = await db.query("SELECT * FROM admins");
-    return rows;
+
+  getAdminList: async (limit, offset) => {
+    const [[{ total }]] = await db.query(
+      "SELECT COUNT(*) AS total FROM admins"
+    );
+
+    const [admins] = await db.query(
+      `SELECT id, name, email, phone_number, created_at
+     FROM admins
+     ORDER BY id DESC
+     LIMIT ? OFFSET ?`,
+      [limit, offset]
+    );
+
+    return { admins, total };
   },
+
 
   SaveAdmin: async (userData) => {
     const {
@@ -58,10 +71,7 @@ const Admin = {
       password,
     } = userData;
 
-    let query = `
-    UPDATE admins 
-    SET name = ?, country_code = ?, phone_number = ?, type = ?
-  `;
+    let query = `UPDATE admins SET name = ?, country_code = ?, phone_number = ?, type = ?`;
     const params = [name, country_code, phone_number, admin_type];
 
     // 🔐 only update password if provided
@@ -84,13 +94,15 @@ const Admin = {
       [id]
     );
 
-    // result.affectedRows tells you if a record was actually deleted
-    if (result.affectedRows > 0) {
-      return { success: true, id: id };
+    if (result.affectedRows === 0) {
+      return null;
     }
 
-    return null; // Return null if the admin didn't exist
+    return {
+      id,
+    };
   },
+
 
 
 };

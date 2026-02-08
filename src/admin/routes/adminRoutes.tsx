@@ -2,6 +2,7 @@
 import Dashboard from "../pages/dashboard/index";
 import AdminList from "../pages/admins/index";
 import CreateAdmin from "../pages/admins/create";
+import ProfileEdit from "../pages/profile/index";
 
 
 const AdminRoutes = [
@@ -21,6 +22,10 @@ const AdminRoutes = [
   {
     path: "edit-admin/:id",
     element: <CreateAdmin />,
+  },
+  {
+    path: "profile",
+    element: <ProfileEdit />,
   },
 ];
 

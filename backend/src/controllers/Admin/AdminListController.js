@@ -1,19 +1,41 @@
 
 import Admin from "../../Models/Admin/AdminModel.js";
 
+// export const getAdminList = async (req, res) => {
+//   try {
+//     const admins = await Admin.getAllAdmins(); // DB function
+
+//     return res.status(200).json({
+//       success: true,
+//       data: admins,
+//     });
+//   } catch (err) {
+//     return res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch admins",
+//       error: err.message,
+//     });
+//   }
+// };
+
 export const getAdminList = async (req, res) => {
   try {
-    const admins = await Admin.getAllAdmins(); // DB function
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 2;
+    const offset = (page - 1) * limit;
+
+    const { admins, total } = await Admin.getAdminList(limit, offset);
 
     return res.status(200).json({
       success: true,
       data: admins,
+      totalPages: Math.ceil(total / limit),
+      totalRecords: total,
     });
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: "Failed to fetch admins",
-      error: err.message,
+      message: err.message,
     });
   }
 };
@@ -77,17 +99,47 @@ export const UpdateAdmin = async (req, res) => {
   }
 };
 
+// export const DeleteAdmin = async (req, res) => {
+//   try {
+//     const admins = await Admin.DeleteAdmin(req.params.id); // DB function
+
+//     return res.status(200).json({
+//       success: true,
+//       data: {
+//         id: admins.id,
+//         email: admins.email
+//       }
+//     });
+//   } catch (err) {
+//     return res.status(500).json({
+//       success: false,
+//       message: "Failed to delete admin",
+//       error: err.message,
+//     });
+//   }
+// };
+
 export const DeleteAdmin = async (req, res) => {
   try {
-    const admins = await Admin.DeleteAdmin(req.params.id); // DB function
+    const adminId = req.params.id;
+
+    const result = await Admin.DeleteAdmin(adminId);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Admin not found",
+      });
+    }
 
     return res.status(200).json({
       success: true,
+      message: "Admin deleted successfully",
       data: {
-        id: admins.id,
-        email: admins.email
-      }
+        id: result.id,
+      },
     });
+
   } catch (err) {
     return res.status(500).json({
       success: false,
