@@ -1,6 +1,6 @@
 
 export default function DashboardCards() {
-   console.log("here");
+  //  console.log("here");
   const stats = [
     { label: "Total Users", value: 128 },
     { label: "Total Orders", value: 86 },

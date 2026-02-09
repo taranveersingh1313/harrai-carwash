@@ -250,6 +250,7 @@ export default function CreateAdmin() {
     country_iso: "in",
     phone_number: "",
     password: "",
+    status: "1",
   });
 
   /* ---------------- CLOSE DROPDOWN ON OUTSIDE CLICK ---------------- */
@@ -292,6 +293,7 @@ export default function CreateAdmin() {
           country_iso: data.data.country_iso || "in",
           phone_number: data.data.phone_number,
           password: "", // never prefill password
+          status: data.data.status,
         });
       }
     };
@@ -463,6 +465,7 @@ export default function CreateAdmin() {
                         border: "1px solid #ddd",
                         zIndex: 100,
                         marginTop: "4px",
+                        color : "#000 !important"
                       }}
                     >
                       <input
@@ -523,6 +526,26 @@ export default function CreateAdmin() {
                 required={!isEdit}
               />
             </div>
+
+
+            {isEdit && (
+            <div className="form-group">
+              <label>Status</label>
+              <select
+                name="status"
+                className="form-control"
+                value={form.status}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Status</option>
+                <option value="1">Active</option>
+                <option value="2">Inactive</option>
+                <option value="3">Disabled</option>
+                <option value="4">Re Activate</option>
+              </select>
+            </div>
+            )}
           </div>
         </div>
 

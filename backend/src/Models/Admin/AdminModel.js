@@ -69,9 +69,10 @@ const Admin = {
       phone_number,
       admin_type,
       password,
+      status,
     } = userData;
 
-    let query = `UPDATE admins SET name = ?, country_code = ?, phone_number = ?, type = ?`;
+    let query = `UPDATE admins SET name = ?, country_code = ?, phone_number = ?, type = ?, updated_at = NOW()`;
     const params = [name, country_code, phone_number, admin_type];
 
     // 🔐 only update password if provided
@@ -79,6 +80,12 @@ const Admin = {
       const hashedPassword = await bcrypt.hash(password, 10);
       query += `, password = ?`;
       params.push(hashedPassword);
+    }
+
+    if (status) {
+      query += `, status = ?`;
+      params.push(status);
+      
     }
 
     query += ` WHERE id = ?`;

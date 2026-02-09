@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import "../assets/css/admin.css";
 
 const Login: React.FC = () => {
@@ -9,6 +10,8 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,7 +80,7 @@ const Login: React.FC = () => {
             />
           </div>
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>Password</label>
             <input
               type="password"
@@ -86,7 +89,30 @@ const Login: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+          </div> */}
+
+          <div className="form-group password-group">
+            <label>Password</label>
+
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+              </button>
+            </div>
           </div>
+
 
           <button type="submit" className="btn-login" disabled={loading}>
             {loading ? "Logging in..." : "Login"}

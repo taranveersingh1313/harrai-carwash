@@ -14,38 +14,7 @@ const Profile = {
     }
   },
 
-  // UpdateProfile: async (email, userData = {}) => {
-
-  //   if (!email) {
-  //     throw new Error("Email is required");
-  //   }
-
-  //   const {
-  //     admin_img = null,
-  //     name,
-  //     country_code,
-  //     phone_number,
-  //     password,
-  //   } = userData;
-
-  //   console.log("UserData :", userData);
-
-  //   let query = `
-  //   UPDATE admins SET admin_img = ?, name = ?, country_code = ?, phone_number = ?`;
-  //   const params = [admin_img, name, country_code, phone_number];
-
-  //   if (password) {
-  //     const hashedPassword = await bcrypt.hash(password, 10);
-  //     query += `, password = ?`;
-  //     params.push(hashedPassword);
-  //   }
-
-  //   query += ` WHERE email = ?`;
-  //   params.push(email);
-
-  //   const [result] = await db.query(query, params);
-  //   return result;
-  // },
+  
 
   UpdateProfile: async (email, data) => {
     const { name, country_code, phone_number, password, admin_img } = data;
@@ -75,6 +44,23 @@ const Profile = {
     const [result] = await db.query(query, params);
     return result;
   },
+
+
+  deleteProfileImage: async (req, res) => {
+  try {
+    const email = req.admin.email;
+
+    await db.query(
+      "UPDATE admins SET admin_img = NULL WHERE email = ?",
+      [email]
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+},
+
 
 
 };

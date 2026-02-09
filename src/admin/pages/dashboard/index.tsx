@@ -1,10 +1,10 @@
 import "../../assets/css/dashboard.css";
 import DashboardCards from "./cards";
 
- console.log("here2");
+//  console.log("here2");
 
 export default function Dashboard() {
-   console.log("here3");
+  //  console.log("here3");
   return (
     
     <div className="admin-dashboard">

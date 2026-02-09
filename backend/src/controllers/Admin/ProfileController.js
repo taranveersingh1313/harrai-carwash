@@ -29,35 +29,6 @@ export const GetProfile = async (req, res) => {
 };
 
 
-// export const UpdateProfile = async (req, res) => {
-//   try {
-//     if (!req.admin || !req.admin.email) {
-//       return res.status(401).json({
-//         success: false,
-//         message: "Unauthorized",
-//       });
-//     }
-
-//     const email = req.admin.email; // ✅ SAFE NOW
-//     const userData = req.body;
-
-//      console.log("userdata", userData)
-
-//     const result = await Profile.UpdateProfile(email, userData);
-
-//     return res.json({
-//       success: true,
-//       message: "Profile updated successfully",
-//       data: result,
-//     });
-//   } catch (err) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "Failed to update profile",
-//       error: err.message,
-//     });
-//   }
-// };
 
 export const UpdateProfile = async (req, res) => {
   try {
@@ -72,6 +43,17 @@ export const UpdateProfile = async (req, res) => {
 
     res.json({ success: true, message: "Profile updated successfully" });
   } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+
+export const DeleteProfileImage = async (req, res) => {
+  try {
+     const email = req.admin.email;
+    await Profile.deleteProfileImage(email, res);
+
+  }catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 };

@@ -99,25 +99,6 @@ export const UpdateAdmin = async (req, res) => {
   }
 };
 
-// export const DeleteAdmin = async (req, res) => {
-//   try {
-//     const admins = await Admin.DeleteAdmin(req.params.id); // DB function
-
-//     return res.status(200).json({
-//       success: true,
-//       data: {
-//         id: admins.id,
-//         email: admins.email
-//       }
-//     });
-//   } catch (err) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "Failed to delete admin",
-//       error: err.message,
-//     });
-//   }
-// };
 
 export const DeleteAdmin = async (req, res) => {
   try {

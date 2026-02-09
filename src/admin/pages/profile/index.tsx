@@ -52,7 +52,7 @@ export default function ProfileEdit() {
 
       setForm({
         admin_img: result.data.admin_img || "",
-        name: result.data.name || "",
+        name: result.data.name || "",   
         email: result.data.email || "",
         username: result.data.username || "",
         country_code: result.data.country_code || "+91",

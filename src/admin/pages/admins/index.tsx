@@ -183,7 +183,7 @@ export default function AdminList() {
       <div className="page-header-row" style={{ display: "flex", justifyContent: "" }}>
         <h1 className="page-title">Admin Listing</h1>
 
-        <div style={{  gap: "1px",    marginLeft: "650px" }}>
+        <div style={{  gap: "1px",    marginLeft: "800px" }}>
           {/* console.log(e.target.value); */}
 
           <select
@@ -237,7 +237,7 @@ export default function AdminList() {
               <td>{admin.email}</td>
               <td>{admin.phone_number}</td>
               <td>{new Date(admin.created_at).toLocaleDateString("en-GB")}</td>
-              <td style={{ display: "flex", gap: "10px" }}>
+              <td style={{ display: "", gap: "10px" }}>
                 <FiEdit
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate(`/admin/edit-admin/${admin.id}`)}
