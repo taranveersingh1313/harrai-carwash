@@ -13,8 +13,9 @@ const authMiddleware = (req, res, next) => {
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET || "shiriguruharraisahib",
-       { expiresIn: "1d" }
+      
     );
+    
 
     req.admin = decoded;
     

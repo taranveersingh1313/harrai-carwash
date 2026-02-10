@@ -24,7 +24,7 @@ export const adminlogin = async (req, res) => {
     const token = jwt.sign(
       { id: admin.id, email: admin.email },
       process.env.JWT_SECRET || 'shiriguruharraisahib',
-      { expiresIn: '1h' }
+      { expiresIn: '1d' }
     );
 
     // 4. Send response

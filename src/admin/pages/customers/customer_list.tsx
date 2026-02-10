@@ -1,6 +1,3 @@
-
-
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
@@ -8,16 +5,16 @@ import Swal from "sweetalert2";
 import { SearchInput } from "../../adminLayouts/searchInput"; // Import Search
 import { Pagination } from "../../adminLayouts/Pagination"; // Import Pagination
 
-interface Admin {
+interface Customer {
   id: number;
   name: string;
   email: string;
-  phone_number: string;
+  phone_no: string;
   created_at: string;
 }
 
-export default function AdminList() {
-  const [admins, setAdmins] = useState<Admin[]>([]);
+export default function CustomerList() {
+  const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(""); // NEW: Search state
 

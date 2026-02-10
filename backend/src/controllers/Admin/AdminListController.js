@@ -23,8 +23,9 @@ export const getAdminList = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 2;
     const offset = (page - 1) * limit;
+    const search = req.query.search || "";
 
-    const { admins, total } = await Admin.getAdminList(limit, offset);
+    const { admins, total } = await Admin.getAdminList(limit, offset, search);
 
     return res.status(200).json({
       success: true,

@@ -5,21 +5,45 @@ import db from "../../config/dbConnect.js";
 
 const Admin = {
 
-  getAdminList: async (limit, offset) => {
-    const [[{ total }]] = await db.query(
-      "SELECT COUNT(*) AS total FROM admins"
-    );
+  // getAdminList: async (limit, offset) => {
+  //   const [[{ total }]] = await db.query(
+  //     "SELECT COUNT(*) AS total FROM admins"
+  //   );
 
-    const [admins] = await db.query(
-      `SELECT id, name, email, phone_number, created_at
+  //   const [admins] = await db.query(
+  //     `SELECT id, name, email, phone_number, created_at
+  //    FROM admins
+  //    ORDER BY id DESC
+  //    LIMIT ? OFFSET ?`,
+  //     [limit, offset]
+  //   );
+
+  //   return { admins, total };
+  // },
+
+  getAdminList: async (limit, offset, search = "") => {
+  // 1. Prepare the search term for SQL (e.g., "John" becomes "%John%")
+  const searchTerm = `%${search}%`;
+
+  // 2. Count total admins that match the search criteria
+  const [[{ total }]] = await db.query(
+    `SELECT COUNT(*) AS total FROM admins 
+     WHERE name LIKE ? OR email LIKE ? OR phone_number LIKE ?`,
+    [searchTerm, searchTerm, searchTerm]
+  );
+
+  // 3. Fetch the specific page of admins that match the search criteria
+  const [admins] = await db.query(
+    `SELECT id, name, email, phone_number, created_at
      FROM admins
+     WHERE name LIKE ? OR email LIKE ? OR phone_number LIKE ?
      ORDER BY id DESC
      LIMIT ? OFFSET ?`,
-      [limit, offset]
-    );
+    [searchTerm, searchTerm, searchTerm, limit, offset]
+  );
 
-    return { admins, total };
-  },
+  return { admins, total };
+},
 
 
   SaveAdmin: async (userData) => {
