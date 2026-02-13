@@ -11,6 +11,7 @@ export default function Sidebar() {
       <nav>
         <NavLink to="/admin/dashboard">Dashboard</NavLink>
         <NavLink to="/admin/admin-list">Admins</NavLink>
+        <NavLink to="/admin/customer-list">Customers</NavLink>
         <NavLink to="/admin/profile">Profile</NavLink>
       </nav>
     </aside>

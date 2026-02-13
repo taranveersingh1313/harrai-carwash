@@ -12,7 +12,7 @@ const Customer = {
         // 2. Count total admins that match the search criteria
         const [[{ total }]] = await db.query(
             `SELECT COUNT(*) AS total FROM customers 
-     WHERE name LIKE ? OR email LIKE ? OR phone_no LIKE ?`,
+             WHERE name LIKE ? OR email LIKE ? OR phone_no LIKE ?`,
             [searchTerm, searchTerm, searchTerm]
         );
 
@@ -30,7 +30,7 @@ const Customer = {
     },
 
 
-    SaveCustomer: async (userData) => {
+    SaveCustomer: async (userData, created_by) => {
         const {
             name,
             email,
@@ -43,19 +43,19 @@ const Customer = {
             state,
             country,
             status,
-            created_by,
+            zip_code,
         } = userData;
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const [result] = await db.query(
             `INSERT INTO customers 
-     (name, email, password, country_code, phone_no, is_verified, address, city, state, country, status, created_by)
+     (name, email, password, country_code, phone_no, is_verified, address, city, state, country, status,zip_code, created_by)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 name,
                 email,
-                password,
+                hashedPassword,
                 country_code,
                 phone_no,
                 is_verified,
@@ -64,6 +64,7 @@ const Customer = {
                 state,
                 country,
                 status,
+                zip_code,
                 created_by,
             ]
         );
@@ -80,20 +81,22 @@ const Customer = {
         return rows.length ? rows[0] : null;
     },
 
-    UpdateCustomer: async (id, userData) => {
+    UpdateCustomer: async (id, customerData) => {
         const {
             name,
             country_code,
             phone_no,
+             password,
             address,
             city,
             state,
             country,
             status,
-        } = userData;
+             zip_code,
+        } = customerData;
 
-        let query = `UPDATE customers SET name = ?, country_code = ?, phone_no = ?, address = ?, city = ?, state = ?, country = ?, updated_at = NOW()`;
-        const params = [name, country_code, phone_no, address, city, state, country];
+        let query = `UPDATE customers SET name = ?, country_code = ?, phone_no = ?, address = ?, city = ?, state = ?, country = ?, zip_code = ?, updated_at = NOW()`;
+        const params = [name, country_code, phone_no, address, city, state, country, zip_code];
 
         // 🔐 only update password if provided
         if (password) {
@@ -134,4 +137,4 @@ const Customer = {
 
 };
 
-export default Admin;
+export default Customer;

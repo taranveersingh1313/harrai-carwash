@@ -7,6 +7,7 @@ import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Swal from "sweetalert2";
 import { SearchInput } from "../../adminLayouts/searchInput"; // Import Search
 import { Pagination } from "../../adminLayouts/Pagination"; // Import Pagination
+import { BASE_URL } from "../../config/apiConfig";
 
 interface Admin {
   id: number;
@@ -38,7 +39,7 @@ export default function AdminList() {
     try {
       // Added &search= parameter to the API call
       const res = await fetch(
-        `http://localhost:5000/api/admin/admin-list?page=${page}&limit=${limit}&search=${search}`,
+        `${BASE_URL}/admin/admin-list?page=${page}&limit=${limit}&search=${search}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -70,7 +71,7 @@ export default function AdminList() {
     if (!result.isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/delete-admin/${id}`, {
+      const res = await fetch(`${BASE_URL}/admin/delete-admin/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate,useLocation } from "react-router-dom";
-import { pageTitles } from "../config/pageTitle";
+import { getPageTitle } from "../config/pageTitle";
+import { BASE_URL } from "../config/apiConfig";
 
 
 export default function Topbar() {
@@ -8,12 +9,14 @@ export default function Topbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const title =
-    pageTitles[location.pathname] || "Admin Panel";
+  // const title =
+  //   pageTitles[location.pathname] || "Admin Panel";
+  const title = getPageTitle(location.pathname);
+
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:5000/api/auth/logout", {
+      await fetch(`${BASE_URL}/auth/logout`, {
         method: "POST",
       });
     } catch (err) {

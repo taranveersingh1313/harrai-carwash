@@ -4,6 +4,7 @@ import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Swal from "sweetalert2";
 import { SearchInput } from "../../adminLayouts/searchInput"; // Import Search
 import { Pagination } from "../../adminLayouts/Pagination"; // Import Pagination
+import { BASE_URL } from "../../config/apiConfig";
 
 interface Customer {
   id: number;
@@ -26,16 +27,16 @@ export default function CustomerList() {
 
   // Re-fetch when page, limit, OR search changes
   useEffect(() => {
-    fetchAdmins();
+    fetchCustomers();
   }, [page, limit, search]);
 
-  /* ---------------- FETCH ADMINS ---------------- */
-  const fetchAdmins = async () => {
+  /* ---------------- FETCH CUSTOMERS ---------------- */
+  const fetchCustomers = async () => {
     setLoading(true);
     try {
       // Added &search= parameter to the API call
       const res = await fetch(
-        `http://localhost:5000/api/admin/admin-list?page=${page}&limit=${limit}&search=${search}`,
+        `${BASE_URL}/admin/customer-list?page=${page}&limit=${limit}&search=${search}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -44,7 +45,7 @@ export default function CustomerList() {
       );
 
       const data = await res.json();
-      setAdmins(data.data || []);
+      setCustomers(data.data || []);
       setTotalPages(data.totalPages || 1);
     } catch (error) {
       console.error("Fetch error:", error);
@@ -53,10 +54,10 @@ export default function CustomerList() {
     }
   };
 
-  /* ---------------- DELETE ADMIN ---------------- */
-  const deleteAdmin = async (id: number) => {
+  /* ---------------- DELETE CUSTOMER ---------------- */
+  const deleteCustomer = async (id: number) => {
     const result = await Swal.fire({
-      title: "Delete Admin?",
+      title: "Delete Customer?",
       text: "This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
@@ -67,7 +68,7 @@ export default function CustomerList() {
     if (!result.isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/delete-admin/${id}`, {
+      const res = await fetch(`${BASE_URL}/admin/delete-customer/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -75,10 +76,10 @@ export default function CustomerList() {
       });
 
       if (!res.ok) throw new Error();
-      Swal.fire("Deleted!", "Admin deleted successfully", "success");
-      fetchAdmins();
-    } catch {
-      Swal.fire("Error", "Failed to delete admin", "error");
+      Swal.fire("Deleted!", "Customer deleted successfully", "success");
+      fetchCustomers();
+    } catch (error) {
+      Swal.fire("Error", "Failed to delete customer", "error");
     }
   };
 
@@ -86,7 +87,7 @@ export default function CustomerList() {
     <div className="admin-dashboard">
       {/* HEADER ROW */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-        <h1 className="page-title">Admin Listing</h1>
+        <h1 className="page-title">Customer Listing</h1>
 
         <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
           {/* REUSABLE SEARCH */}
@@ -96,7 +97,7 @@ export default function CustomerList() {
               setSearch(val);
               setPage(1); // Reset to page 1 on new search
             }} 
-            placeholder="Search admins..." 
+            placeholder="Search customers..." 
           />
 
           {/* LIMIT SELECTOR */}
@@ -115,8 +116,8 @@ export default function CustomerList() {
             <option value={100}>100</option>
           </select>
 
-          <button className="btn-primary" onClick={() => navigate("/admin/create-admin")}>
-            + Create Admin
+          <button className="btn-primary" onClick={() => navigate("/admin/create-customer")}>
+            + Create Customer
           </button>
         </div>
       </div>
@@ -138,22 +139,22 @@ export default function CustomerList() {
               </tr>
             </thead>
             <tbody>
-              {admins.length === 0 ? (
+              {customers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: "center" }}>No admins found</td>
+                  <td colSpan={6} style={{ textAlign: "center" }}>No customers found</td>
                 </tr>
               ) : (
-                admins.map((admin, index) => (
-                  <tr key={admin.id}>
+                customers.map((customer, index) => (
+                  <tr key={customer.id}>
                     <td>{(page - 1) * limit + index + 1}</td>
-                    <td>{admin.name}</td>
-                    <td>{admin.email}</td>
-                    <td>{admin.phone_number}</td>
-                    <td>{new Date(admin.created_at).toLocaleDateString("en-GB")}</td>
+                    <td>{customer.name}</td>
+                    <td>{customer.email}</td>
+                    <td>{customer.phone_no}</td>
+                    <td>{new Date(customer.created_at).toLocaleDateString("en-GB")}</td>
                     <td>
                       <div style={{ display: "flex", gap: "10px" }}>
-                        <FiEdit style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/edit-admin/${admin.id}`)} />
-                        <FiTrash2 style={{ cursor: "pointer", color: "red" }} onClick={() => deleteAdmin(admin.id)} />
+                        <FiEdit style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/edit-customer/${customer.id}`)} />
+                        <FiTrash2 style={{ cursor: "pointer", color: "red" }} onClick={() => deleteCustomer(customer.id)} />
                       </div>
                     </td>
                   </tr>

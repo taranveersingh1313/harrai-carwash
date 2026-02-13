@@ -27,7 +27,11 @@ export const getList = async (req, res) => {
 
 export const SaveCustomer = async (req, res) => {
   try {
-    const newCustomer = await Customer.SaveCustomer(req.body); // DB function
+    const created_by = req.admin.email;
+    console.log("Created by:", created_by);
+    
+
+    const newCustomer = await Customer.SaveCustomer(req.body, created_by); // DB function
     
     console.log(newCustomer);
     

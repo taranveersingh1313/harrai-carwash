@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { countries } from "../../config/countries";
 
 export default function ProfileEdit() {
@@ -7,7 +7,7 @@ export default function ProfileEdit() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const { email } = useParams(); // 👈 edit mode
+  // const { email } = useParams(); // 👈 edit mode
 
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatar, setAvatar] = useState(

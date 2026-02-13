@@ -5,22 +5,6 @@ import db from "../../config/dbConnect.js";
 
 const Admin = {
 
-  // getAdminList: async (limit, offset) => {
-  //   const [[{ total }]] = await db.query(
-  //     "SELECT COUNT(*) AS total FROM admins"
-  //   );
-
-  //   const [admins] = await db.query(
-  //     `SELECT id, name, email, phone_number, created_at
-  //    FROM admins
-  //    ORDER BY id DESC
-  //    LIMIT ? OFFSET ?`,
-  //     [limit, offset]
-  //   );
-
-  //   return { admins, total };
-  // },
-
   getAdminList: async (limit, offset, search = "") => {
   // 1. Prepare the search term for SQL (e.g., "John" becomes "%John%")
   const searchTerm = `%${search}%`;
