@@ -19,10 +19,10 @@ const Customer = {
         // 3. Fetch the specific page of admins that match the search criteria
         const [customers] = await db.query(
             `SELECT *
-     FROM customers
-     WHERE name LIKE ? OR email LIKE ? OR phone_no LIKE ?
-     ORDER BY id DESC
-     LIMIT ? OFFSET ?`,
+                    FROM customers
+                    WHERE name LIKE ? OR email LIKE ? OR phone_no LIKE ?
+                    ORDER BY id DESC
+                    LIMIT ? OFFSET ?`,
             [searchTerm, searchTerm, searchTerm, limit, offset]
         );
 
