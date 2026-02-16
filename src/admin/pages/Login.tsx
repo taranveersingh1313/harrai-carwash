@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import "../assets/css/admin.css";
 
-const Login: React.FC = () => {
+const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -127,4 +127,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

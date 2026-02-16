@@ -1,11 +1,11 @@
 
-import Login from "../pages/Login";
+import AdminLogin from "../pages/Login";
 
 
 const AuthRoutes = [
   {
-    path: "/login",
-    element: <Login />,
+    path: "/admin/login",
+    element: <AdminLogin />,
   },
 
 ];
